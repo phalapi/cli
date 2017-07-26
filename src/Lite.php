@@ -70,7 +70,7 @@ class Lite {
                 $api = ApiFactory::generateService(false);
                 $rules = $api->getApiRules();
             } catch (Exception $ex){
-                throw new UnexpectedValueException($ex->getMessage());
+                throw new \UnexpectedValueException($ex->getMessage());
             }
 
             // PhalApi接口参数转换为命令行参数
@@ -105,7 +105,7 @@ class Lite {
             $api = new PhalApi();
             $rs = $api->response();
             $rs->output();
-        } catch (UnexpectedValueException $e) {
+        } catch (\UnexpectedValueException $e) {
             echo $getopt->getHelpText();
             echo "\n\nError: ".$e->getMessage()."\n";
             exit(1);

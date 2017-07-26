@@ -34,18 +34,18 @@ $cli->response();
 
 ```
 $ ./cli -s Site.Index --username dogstar
-{"ret":200,"data":{"title":"Default Api","content":"dogstar\u60a8\u597d\uff0c\u6b22\u8fce\u4f7f\u7528PhalApi\uff01","version":"1.3.5","time":1486291429},"msg":""}
+{"ret":200,"data":{"title":"Hello World!","content":"PHPer\u60a8\u597d\uff0c\u6b22\u8fce\u4f7f\u7528PhalApi\uff01","version":"2.0.1","time":1501078814},"msg":""}
 ```
   
 ### (2) 获取帮助
 指定接口服务service后，即可使用 --help 参数以查看接口帮助信息，如：  
 ```
-$ ./cli -s User.GetBaseInfo --help
+$ ./cli -s Examples_CURD.Get --help
 Usage: ./cli [options] [operands]
 Options:
   -s, --service <arg>     接口服务
-  --help                  
-  --user_id <arg>         用户ID
+  -h, --help              查看帮助信息
+  --id <arg>              ID
 ```
 
 ### (3) 异常情况
