@@ -54,7 +54,7 @@ class Lite {
             $service = $getopt['service'];
             if ($service === NULL) {
                 echo $getopt->getHelpText();
-                echo "\n\nError: 缺少service参数'\n";
+                echo "\n\nError: 缺少service参数\n";
                 exit(1);
             }
         } catch (UnexpectedValueException $e) {
