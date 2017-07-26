@@ -34,7 +34,7 @@ $cli->response();
 
 ```
 $ ./cli -s Site.Index --username dogstar
-{"ret":200,"data":{"title":"Hello World!","content":"PHPer\u60a8\u597d\uff0c\u6b22\u8fce\u4f7f\u7528PhalApi\uff01","version":"2.0.1","time":1501078814},"msg":""}
+{"ret":200,"data":{"title":"Hello PhalApi","version":"2.0.1","time":1501079142},"msg":""}
 ```
   
 ### (2) 获取帮助
