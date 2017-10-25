@@ -8,7 +8,7 @@
 ```
 {
     "require": {
-        "phalapi/cli": "2.0.*"
+        "phalapi/cli": "dev-master"
     }
 }
 ```
