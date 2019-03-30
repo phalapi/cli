@@ -89,6 +89,11 @@ class Lite {
                 $rule2opts[] = $opt;
             }
 
+            // 优化：http://qa.phalapi.net/?/question/1499
+            if (empty($rule2opts)) {
+                $rule2opts[] = $helpOpt;
+            }
+
             // 添加参数选项，提取命令行参数并重新注册请求
             $getopt->addOptions($rule2opts);
 
