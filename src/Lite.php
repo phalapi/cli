@@ -15,18 +15,26 @@ namespace PhalApi\CLI;
     ./cli -s Site.Index --username dogstar
 ``` 
  *
+ * @link http://getopt-php.github.io/getOopt-php/example.html
  * @author dogstar <chanzonghuang@gmail.com> 20170205
  */
 
-require_once dirname(__FILE__) . '/Ulrichsg/Getopt/Getopt.php';
-require_once dirname(__FILE__) . '/Ulrichsg/Getopt/Option.php';
-require_once dirname(__FILE__) . '/Ulrichsg/Getopt/Argument.php';
-require_once dirname(__FILE__) . '/Ulrichsg/Getopt/CommandLineParser.php';
-require_once dirname(__FILE__) . '/Ulrichsg/Getopt/OptionParser.php';
+//require_once dirname(__FILE__) . '/Ulrichsg/Getopt/Getopt.php';
+//require_once dirname(__FILE__) . '/Ulrichsg/Getopt/Option.php';
+//require_once dirname(__FILE__) . '/Ulrichsg/Getopt/Argument.php';
+//require_once dirname(__FILE__) . '/Ulrichsg/Getopt/CommandLineParser.php';
+//require_once dirname(__FILE__) . '/Ulrichsg/Getopt/OptionParser.php';
+//
+//use Ulrichsg\Getopt\Getopt;
+//use Ulrichsg\Getopt\Option;
+//use Ulrichsg\Getopt\Argument;
 
-use Ulrichsg\Getopt\Getopt;
-use Ulrichsg\Getopt\Option;
-use Ulrichsg\Getopt\Argument;
+use GetOpt\GetOpt;
+use GetOpt\Option;
+use GetOpt\Command;
+use GetOpt\Argument;;
+use GetOpt\ArgumentException;
+use GetOpt\ArgumentException\Missing;
 
 use PhalApi\PhalApi;
 use PhalApi\Request;
@@ -37,28 +45,37 @@ class Lite {
 
     public function response() {
         // 解析获取service参数
-        $serviceOpt = new Option('s', 'service', Getopt::REQUIRED_ARGUMENT);
-        $serviceOpt->setDescription('接口服务');
+        $serviceOpt = Option::create('s', 'service', Getopt::REQUIRED_ARGUMENT)
+            ->setDescription('接口服务');
+        $helpOpt = Option::create('h', 'help')
+            ->setDescription('查看帮助信息');
 
-        $helpOpt = new Option('h', 'help');
-        $helpOpt->setDescription('查看帮助信息');
-        $getopt = new Getopt(array(
+        $getOpt = new Getopt(array(
             $serviceOpt,
             $helpOpt
         ));
 
         $service = NULL;
         try {
-            $getopt->parse();
+            try {
+                $getOpt->process();
 
-            $service = $getopt['service'];
-            if ($service === NULL) {
-                echo $getopt->getHelpText();
-                echo "\n\nError: 缺少service参数\n";
-                exit(1);
+                $service = $getOpt['service'];
+                if ($service === NULL) {
+                    echo $getOpt->getHelpText();
+                    echo PHP_EOL . "Error: 缺少service参数" . PHP_EOL;
+                    exit(1);
+                }
+            } catch (Missing $ex) {
+                // catch missing exceptions if help is requested
+                if (!$getOpt->getOption('help')) {
+                    throw $ex;
+                }
             }
-        } catch (UnexpectedValueException $e) {
-            // just go ahead ...
+        } catch (ArgumentException $ex) {
+            echo $getOpt->getHelpText();
+            echo PHP_EOL . $ex->getMessage() . PHP_EOL;
+            exit(1);
         }
 
         // 再转换处理 。。。
@@ -76,7 +93,7 @@ class Lite {
             // PhalApi接口参数转换为命令行参数
             $rule2opts = array();
             foreach ($rules as $ruleKey => $ruleItem) {
-                $opt = new Option(null, $ruleItem['name'], !empty($ruleItem['require']) ? Getopt::REQUIRED_ARGUMENT : Getopt::OPTIONAL_ARGUMENT);
+                $opt = Option::create(null, $ruleItem['name'], !empty($ruleItem['require']) ? Getopt::REQUIRED_ARGUMENT : Getopt::OPTIONAL_ARGUMENT);
 
                 if (isset($ruleItem['default'])) {
                     $opt->setArgument(new Argument($ruleItem['default']));
@@ -95,24 +112,31 @@ class Lite {
             }
 
             // 添加参数选项，提取命令行参数并重新注册请求
-            $getopt->addOptions($rule2opts);
+            $getOpt->addOptions($rule2opts);
 
-            $getopt->parse();
+            try {
+                $getOpt->process();
+            } catch (Missing $ex) {
+                // catch missing exceptions if help is requested
+                if (!$getOpt->getOption('help')) {
+                    throw $ex;
+                }
+            }
 
-            if ($getopt['help']) {
-                echo $getopt->getHelpText();
+            if ($getOpt['help']) {
+                echo $getOpt->getHelpText();
                 exit(1);
             }
 
-            \PhalApi\DI()->request = new Request($getopt->getOptions());
+            \PhalApi\DI()->request = new Request($getOpt->getOptions());
 
             // 转交PhalApi重新响应处理
             $api = new PhalApi();
             $rs = $api->response();
             $rs->output();
-        } catch (\UnexpectedValueException $e) {
-            echo $getopt->getHelpText();
-            echo "\n\nError: ".$e->getMessage()."\n";
+        } catch (ArgumentException $ex) {
+            echo $getOpt->getHelpText();
+            echo PHP_EOL . $ex->getMessage() . PHP_EOL;
             exit(1);
         }
     }
