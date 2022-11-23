@@ -46,14 +46,14 @@ Options:
 ### (2) 正常运行
 默认接口服务使用```service```名称，缩写为```s```，如运行命令：  
 
-```
+```bash
 $ php ./bin/cli.php -s Site.Index --username dogstar
 {"ret":200,"data":{"title":"Hello PhalApi","version":"2.0.1","time":1501079142},"msg":""}
 ```
   
 ### (3) 获取帮助
 指定接口服务service后，即可使用 ```-h``` 或 ```--help``` 参数以查看接口帮助信息，如：  
-```
+```bash
 $ php ./bin/cli.php -s Examples_CURD.Get -h
 Usage: ./cli [options] [operands]
 Options:
