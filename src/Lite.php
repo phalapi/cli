@@ -45,15 +45,16 @@ class Lite {
 
     public function response() {
         // 解析获取service参数
-        $serviceOpt = Option::create('s', 'service', Getopt::REQUIRED_ARGUMENT)
+        $serviceOpt = Option::create('s', 'service', GetOpt::REQUIRED_ARGUMENT)
             ->setDescription('接口服务');
         $helpOpt = Option::create('h', 'help')
             ->setDescription('查看帮助信息');
 
-        $getOpt = new Getopt(array(
+        $settings = array(GetOpt::SETTING_STRICT_OPTIONS => false, GetOpt::SETTING_STRICT_OPERANDS => false);
+        $getOpt = new GetOpt(array(
             $serviceOpt,
             $helpOpt
-        ));
+        ), $settings);
 
         $service = NULL;
         try {
@@ -93,7 +94,7 @@ class Lite {
             // PhalApi接口参数转换为命令行参数
             $rule2opts = array();
             foreach ($rules as $ruleKey => $ruleItem) {
-                $opt = Option::create(null, $ruleItem['name'], !empty($ruleItem['require']) ? Getopt::REQUIRED_ARGUMENT : Getopt::OPTIONAL_ARGUMENT);
+                $opt = Option::create(null, $ruleItem['name'], !empty($ruleItem['require']) ? GetOpt::REQUIRED_ARGUMENT : GetOpt::OPTIONAL_ARGUMENT);
 
                 if (isset($ruleItem['default'])) {
                     $opt->setArgument(new Argument($ruleItem['default']));
