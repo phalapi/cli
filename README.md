@@ -123,7 +123,7 @@ class MyCLI extends PhalApi\CLI\Lite {
     }
 }
 
-$cli = new MyCLI;
+$cli = new MyCLI();
 $cli->response();
 
 ```
