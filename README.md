@@ -98,6 +98,11 @@ Service: App.User_User.Register
 
 > 温馨提示：phalapi-cli 会对接口参数的类型、是否必须、默认值等进行说明和提示。      
 
+## 截图效果  
+
+![20221208-174039](https://user-images.githubusercontent.com/12585518/206418256-59df5a90-8707-465f-b93d-f7e4db09d938.png)
+
+
 ## 扩展帮助说明  
 
 如果需要定制你的命令脚本的帮助说明，可以重载```PhalApi\CLI\Lite::getHelpText($text)```方法。例如，修改```./bin/phalapi-cli```脚本，改为： 
