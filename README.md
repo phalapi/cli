@@ -1,7 +1,19 @@
 # CLI扩展类库
 
 此类库可用于开发命令行应用，基于[GetOpt.PHP](https://github.com/getopt-php/getopt-php)，主要作用是将命令参数进行解析和处理。  
-  
+
+## 版本与运行环境
+
+| 项目 | 说明 |
+|---|---|
+| 分支基线 | **`phalapi8-dev`（v8.0.0 线，支持 PHP 8）** |
+| PHP 要求 | **>= 8.0**（已实测 8.0 与 8.4） |
+| 依赖 | `ulrichsg/getopt-php: 3.4.0` |
+
+> **版本号说明**：`v8.0.0` 中的 **8 表示“支持 PHP 8”**，不是 PhalAPI 的第 8 代版本。
+>
+> 本扩展已在 PHP 8.0 与 8.4 下实测：类可正常加载与实例化，无弃用告警。v8.0.0 发布后 `composer.json` 一并统一为 `php >=8.0`。
+
 ## 安装
 
 执行 ```composer require phalapi/cli```，或 在项目的composer.json文件中，添加：  
