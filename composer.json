@@ -1,6 +1,6 @@
 {
     "name": "phalapi/cli",
-    "description": "PhalApi 2.x 扩展类库 - CLI命令行，可用于开发命令行应用，基于GetOpt，主要作用是将命令参数进行解析和处理，v8.0.0 起支持 PHP 8。",
+    "description": "PhalApi 8.x 扩展类库 - CLI命令行，可用于开发命令行应用，基于GetOpt，主要作用是将命令参数进行解析和处理，v8.0.0 起支持 PHP 8。",
     "keywords": [
         "phalapi", "phalapi-cli", "cli"
     ],
